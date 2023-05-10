@@ -5,7 +5,7 @@ const devDbConfig = {
   username: 'root',
   password: 'zjf012511',
   database: 'zjfserver',
-  entities: [],
+  entities: [__dirname + '/entities/*.ts'],
   synchronize: true,
 };
 
