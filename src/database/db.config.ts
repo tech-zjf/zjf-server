@@ -1,3 +1,5 @@
+import { TestEntity } from './entities/test.entity';
+
 const devDbConfig = {
   type: 'mysql',
   host: 'localhost',
@@ -5,7 +7,8 @@ const devDbConfig = {
   username: 'root',
   password: 'zjf012511',
   database: 'zjfserver',
-  entities: [__dirname + '/entities/*.ts'],
+  // entities: [__dirname + '/entities/*.ts'],
+  entities: [TestEntity],
   synchronize: true,
 };
 
