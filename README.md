@@ -71,3 +71,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+### 生成模块
+
+1. nest g module xxx
+2. nest g controller xxx
+3. nest g service xxx
