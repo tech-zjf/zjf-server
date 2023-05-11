@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('test')
 export class TestEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
