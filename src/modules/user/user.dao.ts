@@ -11,9 +11,9 @@ export class UserDao {
   ) {}
 
   /** 根据uid查找用户 */
-  async findUserByUid(uid: number) {
+  async findUser(user) {
     const userInfo = await this.userRepo.findOne({
-      where: { uid },
+      where: { ...user },
       select: ['uid', 'wechatAvatarUrl', 'nickname', 'gender', 'phone'],
     });
     if (!userInfo) {

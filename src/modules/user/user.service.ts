@@ -7,14 +7,9 @@ import { getConnection } from 'typeorm';
 export class UserService {
   constructor(private readonly userDao: UserDao) {}
 
-  /** 根据手机号查找用户 */
-  async findUserByPhone(phone: number) {
-    return await this.userDao.findUserByPhone(phone);
-  }
-
   /** 根据uid查找用户 */
-  async findUserByUid(uid: number) {
-    return await this.userDao.findUserByUid(uid);
+  async findUser(user) {
+    return await this.userDao.findUser(user);
   }
 
   /**
