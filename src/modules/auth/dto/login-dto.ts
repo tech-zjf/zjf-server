@@ -1,7 +1,6 @@
 import { IsPassportNumber, Length } from 'class-validator';
 
 export class LoginDto {
-  @IsPassportNumber('CN', { message: '手机号不正确' })
   @Length(11, 11, { message: '不是有效的手机号' })
   readonly phone: string;
 
