@@ -11,7 +11,7 @@ import { UserDao } from '../user/user.dao';
 @Module({
   imports: [
     JwtModule.registerAsync({
-      useFactory: (config: ConfigService) => {
+      useFactory: () => {
         return {
           secret: JWT_CONFIG.JWT_SECRET,
           signOptions: {
@@ -21,6 +21,7 @@ import { UserDao } from '../user/user.dao';
       },
       inject: [ConfigService],
     }),
+    UserModule,
   ],
   providers: [AuthService],
   controllers: [AuthController],
