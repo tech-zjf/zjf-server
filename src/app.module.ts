@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import dbConfig from './database/db.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ApiInterceptor } from './interceptor/api.interceptor';
+import { ApiInterceptor } from './core/interceptor/api.interceptor';
 import { UserModule } from './modules/user/user.module';
 import { TestModule } from './modules/test/test.module';
 import { AuthModule } from './modules/auth/auth.module';
@@ -18,9 +18,9 @@ import { JWT_CONFIG } from './modules/auth/constant';
     JwtModule.registerAsync({
       useFactory: () => {
         return {
-          secret: JWT_CONFIG.JWT_SECRET,
+          secret: JWT_CONFIG.JWT_SECRET, // 秘钥
           signOptions: {
-            expiresIn: JWT_CONFIG.JWT_EXPIRES_IN,
+            expiresIn: JWT_CONFIG.JWT_EXPIRES_IN, // token 一年过期
           },
         };
       },
