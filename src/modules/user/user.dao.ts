@@ -22,6 +22,18 @@ export class UserDao {
     return userInfo;
   }
 
+  /** 根据手机号查找用户 */
+  async findUserByPhone(phone: number) {
+    const userInfo = await this.userRepo.findOne({
+      where: { phone },
+      select: ['uid', 'wechatAvatarUrl', 'nickname', 'gender', 'phone'],
+    });
+    if (!userInfo) {
+      throw new HttpException('找不到用户', 200);
+    }
+    return userInfo;
+  }
+
   /**
    * 创建用户
    */
