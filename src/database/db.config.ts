@@ -1,4 +1,5 @@
 import { TestEntity } from './entities/test.entity';
+import { User } from './entities/user.entity';
 
 const devDbConfig = {
   type: 'mysql',
@@ -8,7 +9,7 @@ const devDbConfig = {
   password: 'zjf012511',
   database: 'zjfserver',
   // entities: [__dirname + '/entities/*.ts'],
-  entities: [TestEntity],
+  entities: [TestEntity, User],
   synchronize: true,
   migrationsTableName: 'migrations_typeorm',
   migrations: ['src/database/migrations/*.ts'],

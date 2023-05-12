@@ -5,12 +5,13 @@ import dbConfig from './database/db.config';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ApiInterceptor } from './interceptor/api.interceptor';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // 全局环境变量
     TypeOrmModule.forRoot(dbConfig), //数据库
-    TestModule,
+    TestModule, UserModule,
   ],
   providers: [
     {
