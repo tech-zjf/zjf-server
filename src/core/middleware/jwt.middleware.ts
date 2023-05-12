@@ -14,11 +14,11 @@ export class JwtMiddleware implements NestMiddleware {
   constructor(private readonly jwtService: JwtService) {}
   use(req: ExpandRequest, res: Response, next: NextFunction) {
     const authorization = req.headers.authorization;
-    const token = authorization.replace('Bearer', '').trim();
-    if (!token) {
+    if (!authorization) {
       next();
       return;
     }
+    const token = authorization.replace('Bearer', '').trim();
     try {
       const payload = this.jwtService.verify(token, {});
       req.uid = payload.sub;
