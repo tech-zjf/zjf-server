@@ -10,6 +10,11 @@ const devDbConfig = {
   // entities: [__dirname + '/entities/*.ts'],
   entities: [TestEntity],
   synchronize: true,
+  migrationsTableName: 'migrations_typeorm',
+  migrations: ['src/database/migrations/*.ts'],
+  cli: {
+    migrationsDir: 'src/database/migrations',
+  },
 };
 
 const prodDbConfig = {};

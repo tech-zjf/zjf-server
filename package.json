@@ -12,6 +12,9 @@
     "start:dev": "cross-env NODE_ENV=dev nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=prod node dist/main",
+    "db:gen": "ts-node --transpile-only ./node_modules/typeorm/cli.js --config ./src/database/db.config.ts migration:create -n",
+    "db:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run --config ./src/database/db.config.ts",
+    "db:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert --config ./src/database/db.config.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -20,9 +23,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/common": "^9.0.0",
-    "@nestjs/config": "^2.3.1",
-    "@nestjs/core": "^9.0.0",
+    "@nestjs/common": "^8.0.6",
+    "@nestjs/config": "^1.0.1",
+    "@nestjs/core": "^8.0.6",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^8.0.2",
     "class-transformer": "^0.5.1",
@@ -31,7 +34,7 @@
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.2.34"
+    "typeorm": "^0.2.41"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
