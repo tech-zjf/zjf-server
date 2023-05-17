@@ -3,6 +3,8 @@ import { ArticleDao } from './article.dao';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { getConnection } from 'typeorm';
 import { CategoryDao } from '../category/category.dao';
+import { PromiseTools } from '@/lib/tools/promise.tool';
+import { FindAllArticleDto } from './dto/find-all-article.dto';
 
 @Injectable()
 export class ArticleService {
@@ -32,5 +34,20 @@ export class ArticleService {
       });
     } catch (error) {}
     return { articleId };
+  }
+
+  /** 获取文章列表 */
+  async findAll(query: FindAllArticleDto) {
+    let articleList = await this.articleDao.findAll(query);
+    return PromiseTools.queue(articleList, async (item) => {
+      const category = this.categoryDao.findModuleCategory(
+        'article',
+        `${item.id}`,
+      );
+      return {
+        ...item,
+        category,
+      };
+    });
   }
 }

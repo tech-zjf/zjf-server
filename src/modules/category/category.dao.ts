@@ -30,4 +30,8 @@ export class CategoryDao {
     });
     await transaction.insert(CategoryRelatedEntity, insertCategoryRelated);
   }
+
+  async findModuleCategory(contentType: string, contentId: string) {
+    return this.categoryRelatedRepo.findOne({ contentType, contentId });
+  }
 }
