@@ -10,6 +10,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { JwtMiddleware } from './core/middleware/jwt.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT_CONFIG } from './modules/auth/constant';
+import { ArticleModule } from './modules/article/article.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { JWT_CONFIG } from './modules/auth/constant';
     TestModule,
     UserModule,
     AuthModule,
+    ArticleModule,
+    CategoryModule,
   ],
   providers: [
     {
