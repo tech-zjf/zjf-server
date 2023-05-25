@@ -5,12 +5,14 @@ import { getConnection } from 'typeorm';
 import { CategoryDao } from '../category/category.dao';
 import { PromiseTools } from '@/lib/tools/promise.tool';
 import { FindAllArticleDto } from './dto/find-all-article.dto';
+import { UserDao } from '../user/user.dao';
 
 @Injectable()
 export class ArticleService {
   constructor(
     private readonly articleDao: ArticleDao,
     private readonly categoryDao: CategoryDao,
+    private readonly userDao: UserDao,
   ) {}
 
   /** 创建文章 */
@@ -44,9 +46,12 @@ export class ArticleService {
         'article',
         `${item.id}`,
       );
+      const author = await this.userDao.findUser({ uid: +item.uid });
       return {
         ...item,
+        type: 'article',
         category,
+        author,
       };
     });
   }
