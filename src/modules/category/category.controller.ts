@@ -10,4 +10,9 @@ export class CategoryController {
   create(@Body() createCategory: CreateCategoryDto, @Uid() uid: string) {
     return this.categoryService.create(createCategory, uid);
   }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.categoryService.findOneById(id);
+  }
 }

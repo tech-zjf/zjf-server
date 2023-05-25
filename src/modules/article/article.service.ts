@@ -42,7 +42,7 @@ export class ArticleService {
   async findAll(query: FindAllArticleDto) {
     let articleList = await this.articleDao.findAll(query);
     return PromiseTools.queue(articleList, async (item) => {
-      const category = this.categoryDao.findModuleCategory(
+      const category = await this.categoryDao.findModuleCategory(
         'article',
         `${item.id}`,
       );

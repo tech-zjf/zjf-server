@@ -1,6 +1,8 @@
 import { CategoryRelatedEntity } from '@/database/entities/category-related.entity';
 import { CategoryEntity } from '@/database/entities/category.entity';
+import { HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { log } from 'console';
 import { EntityManager, Repository } from 'typeorm';
 
 export class CategoryDao {
@@ -18,6 +20,18 @@ export class CategoryDao {
     return ret.identifiers[0].id;
   }
 
+  /** 根据id查找分类 */
+  async findOneById(categoryId) {
+    const categoryInfo = await this.categoryRepo.findOne({
+      where: { id: categoryId },
+      select: ['id', 'name', 'icon', 'createTime'],
+    });
+    if (!categoryInfo) {
+      throw new HttpException('找不到该分类', 200);
+    }
+    return categoryInfo;
+  }
+
   /** 分类关联内容 */
   async createCategoryRelated(
     { categoryId, contentType, contentId },
@@ -31,7 +45,17 @@ export class CategoryDao {
     await transaction.insert(CategoryRelatedEntity, insertCategoryRelated);
   }
 
+  /** 获取相关类容分类 */
   async findModuleCategory(contentType: string, contentId: string) {
-    return this.categoryRelatedRepo.findOne({ contentType, contentId });
+    const data = await this.categoryRelatedRepo.findOne({
+      contentType,
+      contentId,
+    });
+    let categoryInfo = {};
+    if (!data) {
+      return categoryInfo;
+    }
+    categoryInfo = await this.findOneById(data?.categoryId);
+    return categoryInfo;
   }
 }
