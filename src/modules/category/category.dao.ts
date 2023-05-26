@@ -32,6 +32,12 @@ export class CategoryDao {
     return categoryInfo;
   }
 
+  /** 获取分类列表 */
+  async findAll() {
+    const qb = this.categoryRepo.createQueryBuilder('category');
+    return qb.getMany();
+  }
+
   /** 分类关联内容 */
   async createCategoryRelated(
     { categoryId, contentType, contentId },

@@ -19,4 +19,9 @@ export class CategoryService {
   async findOneById(id: string) {
     return await this.categoryDao.findOneById(id);
   }
+
+  /** 获取分类列表 */
+  async findAll() {
+    return await this.categoryDao.findAll();
+  }
 }
