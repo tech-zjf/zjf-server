@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { ArticleDao } from './article.dao';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { getConnection } from 'typeorm';
@@ -18,6 +18,9 @@ export class ArticleService {
   /** 创建文章 */
   async create(createArticle: CreateArticleDto, uid: number) {
     let articleId;
+    if (!uid) {
+      throw new HttpException('用户未登录',403)
+    }
     try {
       await getConnection().transaction(async (transactionalEntityManager) => {
         articleId = await this.articleDao.create(

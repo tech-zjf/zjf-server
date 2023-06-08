@@ -4,6 +4,7 @@ import { EntityManager, Repository } from 'typeorm';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { log } from 'console';
 import { FindAllArticleDto } from './dto/find-all-article.dto';
+import { HttpException } from '@nestjs/common';
 
 export class ArticleDao {
   constructor(
@@ -17,11 +18,9 @@ export class ArticleDao {
     uid: number,
     transaction: EntityManager,
   ) {
-    try {
       const insertArticle = this.articleRepo.create({ ...createArticle, uid });
       const ret = await transaction.insert(ArticleEntity, insertArticle);
       return ret.identifiers[0].id;
-    } catch (error) {}
   }
 
   async findAll(query: FindAllArticleDto) {
