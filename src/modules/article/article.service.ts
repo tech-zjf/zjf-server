@@ -34,8 +34,8 @@ export class ArticleService {
           transactionalEntityManager,
         );
       });
+      return { articleId };
     } catch (error) {}
-    return { articleId };
   }
 
   /** 获取文章列表 */

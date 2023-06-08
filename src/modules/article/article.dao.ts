@@ -17,9 +17,11 @@ export class ArticleDao {
     uid: number,
     transaction: EntityManager,
   ) {
-    const insertArticle = this.articleRepo.create({ ...createArticle, uid });
-    const ret = await transaction.insert(ArticleEntity, insertArticle);
-    return ret.identifiers[0].id;
+    try {
+      const insertArticle = this.articleRepo.create({ ...createArticle, uid });
+      const ret = await transaction.insert(ArticleEntity, insertArticle);
+      return ret.identifiers[0].id;
+    } catch (error) {}
   }
 
   async findAll(query: FindAllArticleDto) {
