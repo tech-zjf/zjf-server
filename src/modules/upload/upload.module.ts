@@ -3,10 +3,9 @@ import { UploadController } from './upload.controller';
 import { UploadService } from './upload.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import * as path from 'path';
 
 @Module({
-    imports: [
+  imports: [
     MulterModule.register({
       storage: diskStorage({
         // 指定文件存储目录
@@ -19,6 +18,6 @@ import * as path from 'path';
     }),
   ],
   controllers: [UploadController],
-  providers: [UploadService]
+  providers: [UploadService],
 })
 export class UploadModule {}
