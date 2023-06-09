@@ -6,6 +6,7 @@ import { CategoryDao } from '../category/category.dao';
 import { PromiseTools } from '@/lib/tools/promise.tool';
 import { FindAllArticleDto } from './dto/find-all-article.dto';
 import { UserDao } from '../user/user.dao';
+import { ApiCode } from '@/constant/api-code';
 
 @Injectable()
 export class ArticleService {
@@ -17,10 +18,10 @@ export class ArticleService {
 
   /** 创建文章 */
   async create(createArticle: CreateArticleDto, uid: number) {
-    let articleId;
     if (!uid) {
-      throw new HttpException('用户未登录',403)
+      throw new HttpException(ApiCode.NOT_LOGIN.msg, +ApiCode.NOT_LOGIN.code);
     }
+    let articleId;
     try {
       await getConnection().transaction(async (transactionalEntityManager) => {
         articleId = await this.articleDao.create(
@@ -38,7 +39,9 @@ export class ArticleService {
         );
       });
       return { articleId };
-    } catch (error) {}
+    } catch (error) {
+      throw new HttpException(ApiCode.FAIL.msg, +ApiCode.FAIL.code);
+    }
   }
 
   /** 获取文章列表 */
