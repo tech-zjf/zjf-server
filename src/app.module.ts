@@ -12,6 +12,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { JWT_CONFIG } from './modules/auth/constant';
 import { ArticleModule } from './modules/article/article.module';
 import { CategoryModule } from './modules/category/category.module';
+import { UploadModule } from './modules/upload/upload.module';
+import * as express from 'express';
+import * as path from 'path';
 
 @Module({
   imports: [
@@ -33,6 +36,7 @@ import { CategoryModule } from './modules/category/category.module';
     AuthModule,
     ArticleModule,
     CategoryModule,
+    UploadModule,
   ],
   providers: [
     {
