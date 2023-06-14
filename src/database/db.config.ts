@@ -27,7 +27,28 @@ const devDbConfig = {
   },
 };
 
-const prodDbConfig = {};
+const prodDbConfig = {
+  type: 'mysql',
+  host: '101.132.36.144',
+  port: 3306,
+  username: 'root',
+  password: 'Zjf012511..',
+  database: 'zjfserver',
+  // entities: [__dirname + '/entities/*.ts'],
+  entities: [
+    TestEntity,
+    User,
+    ArticleEntity,
+    CategoryEntity,
+    CategoryRelatedEntity,
+  ],
+  synchronize: true,
+  migrationsTableName: 'migrations_typeorm',
+  migrations: ['src/database/migrations/*.ts'],
+  cli: {
+    migrationsDir: 'src/database/migrations',
+  },
+};
 
 const dbConfigMap = new Map([
   ['prod', prodDbConfig],

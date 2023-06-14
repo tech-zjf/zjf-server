@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import dbConfig from './database/db.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -19,7 +19,7 @@ import * as path from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // 全局环境变量
-    TypeOrmModule.forRoot(dbConfig), //数据库
+    TypeOrmModule.forRoot(dbConfig as TypeOrmModuleOptions), //数据库
     JwtModule.registerAsync({
       useFactory: () => {
         return {
