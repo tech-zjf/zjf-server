@@ -18,11 +18,12 @@ export class ArticleDao {
     uid: number,
     transaction: EntityManager,
   ) {
-      const insertArticle = this.articleRepo.create({ ...createArticle, uid });
-      const ret = await transaction.insert(ArticleEntity, insertArticle);
-      return ret.identifiers[0].id;
+    const insertArticle = this.articleRepo.create({ ...createArticle, uid });
+    const ret = await transaction.insert(ArticleEntity, insertArticle);
+    return ret.identifiers[0].id;
   }
 
+  /** 查找文章列表 */
   async findAll(query: FindAllArticleDto) {
     const qb = this.articleRepo
       .createQueryBuilder('article')
@@ -30,5 +31,16 @@ export class ArticleDao {
       .skip((query.page - 1) * query.pageSize)
       .orderBy('article.createTime', query.order);
     return qb.getMany();
+  }
+
+  async findOneById(id: string) {
+    const articleInfo = await this.articleRepo
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .getOne();
+    if (!articleInfo) {
+      throw new HttpException('文章不存在', 200);
+    }
+    return articleInfo;
   }
 }

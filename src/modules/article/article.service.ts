@@ -16,7 +16,9 @@ export class ArticleService {
     private readonly userDao: UserDao,
   ) {}
 
-  /** 创建文章 */
+  /**
+   * 创建文章
+   */
   async create(createArticle: CreateArticleDto, uid: number) {
     if (!uid) {
       throw new HttpException(ApiCode.NOT_LOGIN.msg, +ApiCode.NOT_LOGIN.code);
@@ -44,7 +46,9 @@ export class ArticleService {
     }
   }
 
-  /** 获取文章列表 */
+  /**
+   * 获取文章列表
+   */
   async findAll(query: FindAllArticleDto) {
     let articleList = await this.articleDao.findAll(query);
     return PromiseTools.queue(articleList, async (item) => {
@@ -60,5 +64,21 @@ export class ArticleService {
         author,
       };
     });
+  }
+
+  /** 文章详情 */
+  async findOneById(id: string) {
+    let articleInfo: any = await this.articleDao.findOneById(id);
+    const category = await this.categoryDao.findModuleCategory(
+      'article',
+      `${articleInfo.id}`,
+    );
+    const author = await this.userDao.findUser({ uid: +articleInfo.uid });
+    articleInfo = {
+      ...articleInfo,
+      category,
+      author,
+    };
+    return articleInfo;
   }
 }

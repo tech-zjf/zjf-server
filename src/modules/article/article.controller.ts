@@ -1,5 +1,5 @@
 import { Uid } from '@/core/decorator/user.decorator';
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { query } from 'express';
@@ -16,5 +16,10 @@ export class ArticleController {
   @Get()
   findAll(@Query() query: FindAllArticleDto) {
     return this.articleService.findAll(query);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.articleService.findOneById(id);
   }
 }

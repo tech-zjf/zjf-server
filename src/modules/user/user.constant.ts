@@ -5,4 +5,5 @@ export enum UserGender {
 }
 
 /** 默认头像 */
-export const DEAFULT_USER_AVATAR = 'https://p3-passport.byteimg.com/img/user-avatar/d38a7059d0d6ad0cc6d816cb0b4eb2ad~100x100.awebp';
+export const DEAFULT_USER_AVATAR =
+  'http://127.0.0.1:3008/upload/images/fugui.jpeg';
