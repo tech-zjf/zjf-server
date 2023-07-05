@@ -13,8 +13,7 @@ import { JWT_CONFIG } from './modules/auth/constant';
 import { ArticleModule } from './modules/article/article.module';
 import { CategoryModule } from './modules/category/category.module';
 import { UploadModule } from './modules/upload/upload.module';
-import * as express from 'express';
-import * as path from 'path';
+import { ViewsModule } from './modules/views/views.module';
 
 @Module({
   imports: [
@@ -37,6 +36,7 @@ import * as path from 'path';
     ArticleModule,
     CategoryModule,
     UploadModule,
+    ViewsModule,
   ],
   providers: [
     {

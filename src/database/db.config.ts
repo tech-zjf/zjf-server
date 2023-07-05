@@ -3,6 +3,7 @@ import { CategoryRelatedEntity } from './entities/category-related.entity';
 import { CategoryEntity } from './entities/category.entity';
 import { TestEntity } from './entities/test.entity';
 import { User } from './entities/user.entity';
+import { ViewsEntity } from './entities/views.entity';
 
 const devDbConfig = {
   type: 'mysql',
@@ -18,6 +19,7 @@ const devDbConfig = {
     ArticleEntity,
     CategoryEntity,
     CategoryRelatedEntity,
+    ViewsEntity
   ],
   synchronize: true,
   migrationsTableName: 'migrations_typeorm',
