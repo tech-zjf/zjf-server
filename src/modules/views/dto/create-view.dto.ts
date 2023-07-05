@@ -1,9 +1,8 @@
-import { IsNumberString, IsString, Length, MaxLength, MinLength, isNumberString, } from "class-validator";
+import { IsNumber, IsNumberString, IsString, Length, MaxLength, MinLength, isNumberString, } from "class-validator";
 
 export class CreateViewDto {
-    @IsNumberString()
-    @Length(0, 100)
-    parentViewId
+    @IsNumber()
+    parentId: number;
 
     @IsString({ message: '字符串类型' })
     @MaxLength(200, { message: '最多200字' })
