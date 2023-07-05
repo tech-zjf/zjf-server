@@ -10,7 +10,7 @@ export class ArticleDao {
   constructor(
     @InjectRepository(ArticleEntity)
     private readonly articleRepo: Repository<ArticleEntity>,
-  ) {}
+  ) { }
 
   /** 创建文章 */
   async create(
@@ -39,7 +39,7 @@ export class ArticleDao {
       .where('user.id = :id', { id })
       .getOne();
     if (!articleInfo) {
-      throw new HttpException('文章不存在', 200);
+      throw new HttpException('文章不存在', 404);
     }
     return articleInfo;
   }

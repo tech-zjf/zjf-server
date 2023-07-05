@@ -5,10 +5,12 @@ import { ApiCode } from '@/constant/api-code';
 import { FindAllViewsDto } from './dto/find-all-views.dto';
 import { BasicGetAllDto } from '@/core/dto/basic-get-all.dto';
 import { PromiseTools } from '@/lib/tools/promise.tool';
+import { ViewTypeMap } from './views.constant';
+import { UserDao } from '../user/user.dao';
 
 @Injectable()
 export class ViewsService {
-    constructor(private readonly viewsDao: ViewsDao) { }
+    constructor(private readonly viewsDao: ViewsDao, private readonly userDao: UserDao,) { }
 
     /**
      * 评论创建
@@ -32,9 +34,13 @@ export class ViewsService {
         const views = await this.viewsDao.findAll(query)
         const list = await PromiseTools.queue(views, async (item) => {
             const childViews = await this.findChildViews(item.id, { page: 1, pageSize: 2 })
+            const relationTypeStr = this.getViewTypeStr(item.relationType)
+            const author = await this.userDao.findUser({ uid: +item.uid });
             return {
                 ...item,
-                child: childViews
+                relationTypeStr,
+                author,
+                child: childViews,
             }
         })
         return { list }
@@ -47,12 +53,23 @@ export class ViewsService {
         const views = await this.viewsDao.findChildViews(viewId, query)
         const childList = await PromiseTools.queue(views, async (item) => {
             const childViews = await this.findChildViews(item.id, { page: 1, pageSize: 1000 })
+            const relationTypeStr = this.getViewTypeStr(item.relationType)
+            const author = await this.userDao.findUser({ uid: +item.uid });
             return {
                 ...item,
-                child: childViews
+                relationTypeStr,
+                author,
+                child: childViews,
             }
         })
         return childList
+    }
+
+    getViewTypeStr(relationType: number) {
+        if (ViewTypeMap.has(relationType)) {
+            return ViewTypeMap.get(relationType)
+        }
+        throw new HttpException('该类型暂不支持评论', 200);
     }
 
 }
