@@ -7,6 +7,7 @@ import { BasicGetAllDto } from '@/core/dto/basic-get-all.dto';
 import { PromiseTools } from '@/lib/tools/promise.tool';
 import { ViewTypeMap } from './views.constant';
 import { UserDao } from '../user/user.dao';
+import { omit } from 'lodash'
 
 @Injectable()
 export class ViewsService {
@@ -37,7 +38,7 @@ export class ViewsService {
             const relationTypeStr = this.getViewTypeStr(item.relationType)
             const author = await this.userDao.findUser({ uid: +item.uid });
             return {
-                ...item,
+                ...omit(item, ['uid']),
                 relationTypeStr,
                 author,
                 child: childViews,
@@ -56,7 +57,7 @@ export class ViewsService {
             const relationTypeStr = this.getViewTypeStr(item.relationType)
             const author = await this.userDao.findUser({ uid: +item.uid });
             return {
-                ...item,
+                ...omit(item, ['uid']),
                 relationTypeStr,
                 author,
                 child: childViews,
