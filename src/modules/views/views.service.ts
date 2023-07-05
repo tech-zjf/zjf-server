@@ -25,6 +25,9 @@ export class ViewsService {
         }
     }
 
+    /** 
+     * 获取评论列表
+     */
     async findAll(query: FindAllViewsDto) {
         const views = await this.viewsDao.findAll(query)
         const list = await PromiseTools.queue(views, async (item) => {
@@ -37,6 +40,9 @@ export class ViewsService {
         return { list }
     }
 
+    /** 
+     * 递归获取子评论列表 
+     */
     async findChildViews(viewId, query: BasicGetAllDto) {
         const views = await this.viewsDao.findChildViews(viewId, query)
         const childList = await PromiseTools.queue(views, async (item) => {

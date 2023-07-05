@@ -8,12 +8,18 @@ import { ViewTypeEnum } from "./views.constant";
 export class ViewsDao {
     constructor(@InjectRepository(ViewsEntity) private readonly viewRepo: Repository<ViewsEntity>) { }
 
+    /**
+     * 创建评论 
+     */
     async create(createViewDto: CreateViewDto, uid: number) {
         const insertView = this.viewRepo.create({ ...createViewDto, uid })
         const ret = await this.viewRepo.insert(insertView)
         return ret.identifiers[0].id
     }
 
+    /**
+     * 评论列表 
+     */
     async findAll(query: FindAllViewsDto) {
         const qb = this.viewRepo
             .createQueryBuilder('view')
@@ -25,6 +31,9 @@ export class ViewsDao {
         return qb.getMany();
     }
 
+    /**
+     * 子评论列表 
+     */
     async findChildViews(viewId, query) {
         const qb = this.viewRepo
             .createQueryBuilder('view')
