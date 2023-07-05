@@ -18,4 +18,5 @@ export class ViewsController {
     findAll(@Query() query: FindAllViewsDto) {
         return this.viewsService.findAll(query);
     }
+
 }
