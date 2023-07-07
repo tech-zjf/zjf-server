@@ -7,19 +7,19 @@ import { FindAllArticleDto } from './dto/find-all-article.dto';
 
 @Controller('article')
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(private readonly articleService: ArticleService) { }
 
   @Post()
   async create(@Body() createArticle: CreateArticleDto, @Uid() uid: number) {
     return this.articleService.create(createArticle, uid);
   }
   @Get()
-  findAll(@Query() query: FindAllArticleDto) {
-    return this.articleService.findAll(query);
+  findAll(@Query() query: FindAllArticleDto, @Uid() uid: number) {
+    return this.articleService.findAll(query, uid);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.articleService.findOneById(id);
+  findOne(@Param('id') id: string, @Uid() uid: number) {
+    return this.articleService.findOneById(id, uid);
   }
 }

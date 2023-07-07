@@ -7,6 +7,8 @@ import { PromiseTools } from '@/lib/tools/promise.tool';
 import { FindAllArticleDto } from './dto/find-all-article.dto';
 import { UserDao } from '../user/user.dao';
 import { ApiCode } from '@/constant/api-code';
+import { LikeTypeEnum } from '../likes/likes.constant';
+import { LikesDao } from '../likes/likes.dao';
 
 @Injectable()
 export class ArticleService {
@@ -14,7 +16,9 @@ export class ArticleService {
     private readonly articleDao: ArticleDao,
     private readonly categoryDao: CategoryDao,
     private readonly userDao: UserDao,
-  ) {}
+    private readonly likeDao: LikesDao,
+
+  ) { }
 
   /**
    * 创建文章
@@ -49,7 +53,7 @@ export class ArticleService {
   /**
    * 获取文章列表
    */
-  async findAll(query: FindAllArticleDto) {
+  async findAll(query: FindAllArticleDto, uid: number) {
     let articleList = await this.articleDao.findAll(query);
     return PromiseTools.queue(articleList, async (item) => {
       const category = await this.categoryDao.findModuleCategory(
@@ -57,27 +61,33 @@ export class ArticleService {
         `${item.id}`,
       );
       const author = await this.userDao.findUser({ uid: +item.uid });
+      const likes = await this.likeDao.findLikes(item.id, LikeTypeEnum.ARTICLE)
       return {
         ...item,
         type: 'article',
         category,
         author,
+        likeCount: likes.length || 0,
+        isLike: !!likes.find(v => v.uid === uid),
       };
     });
   }
 
   /** 文章详情 */
-  async findOneById(id: string) {
+  async findOneById(id: string, uid: number) {
     let articleInfo: any = await this.articleDao.findOneById(id);
     const category = await this.categoryDao.findModuleCategory(
       'article',
       `${articleInfo.id}`,
     );
     const author = await this.userDao.findUser({ uid: +articleInfo.uid });
+    const likes = await this.likeDao.findLikes(articleInfo.id, LikeTypeEnum.ARTICLE)
     articleInfo = {
       ...articleInfo,
       category,
       author,
+      likeCount: likes.length || 0,
+      isLike: !!likes.find(v => v.uid === uid),
     };
     return articleInfo;
   }
