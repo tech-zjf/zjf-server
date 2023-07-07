@@ -1,6 +1,7 @@
 import { ArticleEntity } from './entities/article.entity';
 import { CategoryRelatedEntity } from './entities/category-related.entity';
 import { CategoryEntity } from './entities/category.entity';
+import { LikesEntity } from './entities/likes.entity';
 import { TestEntity } from './entities/test.entity';
 import { User } from './entities/user.entity';
 import { ViewsEntity } from './entities/views.entity';
@@ -19,7 +20,8 @@ const devDbConfig = {
     ArticleEntity,
     CategoryEntity,
     CategoryRelatedEntity,
-    ViewsEntity
+    ViewsEntity,
+    LikesEntity
   ],
   synchronize: true,
   migrationsTableName: 'migrations_typeorm',

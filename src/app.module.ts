@@ -14,6 +14,7 @@ import { ArticleModule } from './modules/article/article.module';
 import { CategoryModule } from './modules/category/category.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { ViewsModule } from './modules/views/views.module';
+import { LikesModule } from './modules/likes/likes.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ViewsModule } from './modules/views/views.module';
     CategoryModule,
     UploadModule,
     ViewsModule,
+    LikesModule,
   ],
   providers: [
     {
