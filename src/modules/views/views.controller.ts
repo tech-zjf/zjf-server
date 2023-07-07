@@ -15,8 +15,8 @@ export class ViewsController {
     }
 
     @Get()
-    findAll(@Query() query: FindAllViewsDto) {
-        return this.viewsService.findAll(query);
+    findAll(@Query() query: FindAllViewsDto, @Uid() uid: number) {
+        return this.viewsService.findAll(query, uid);
     }
 
 }

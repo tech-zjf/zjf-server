@@ -5,11 +5,13 @@ import { ViewsDao } from './views.dao';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ViewsEntity } from '@/database/entities/views.entity';
 import { UserModule } from '../user/user.module';
+import { LikesModule } from '../likes/likes.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ViewsEntity]),
-    UserModule
+    UserModule,
+    LikesModule
   ],
   controllers: [ViewsController],
   providers: [ViewsService, ViewsDao],

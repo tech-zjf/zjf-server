@@ -8,10 +8,12 @@ import { PromiseTools } from '@/lib/tools/promise.tool';
 import { ViewTypeMap } from './views.constant';
 import { UserDao } from '../user/user.dao';
 import { omit } from 'lodash'
+import { LikesDao } from '../likes/likes.dao';
+import { LikeTypeEnum } from '../likes/likes.constant';
 
 @Injectable()
 export class ViewsService {
-    constructor(private readonly viewsDao: ViewsDao, private readonly userDao: UserDao,) { }
+    constructor(private readonly viewsDao: ViewsDao, private readonly userDao: UserDao, private readonly likeDao: LikesDao) { }
 
     /**
      * 评论创建
@@ -31,17 +33,20 @@ export class ViewsService {
     /** 
      * 获取评论列表
      */
-    async findAll(query: FindAllViewsDto) {
+    async findAll(query: FindAllViewsDto, uid: number) {
         const views = await this.viewsDao.findAll(query)
         const list = await PromiseTools.queue(views, async (item) => {
-            const childViews = await this.findChildViews(item.id, { page: 1, pageSize: 2 })
+            const childViews = await this.findChildViews(item.id, { page: 1, pageSize: 2 }, uid)
             const relationTypeStr = this.getViewTypeStr(item.relationType)
             const author = await this.userDao.findUser({ uid: +item.uid });
+            const likes = await this.likeDao.findLikes(item.id, LikeTypeEnum.VIEW)
             return {
                 ...omit(item, ['uid']),
                 relationTypeStr,
                 author,
                 child: childViews,
+                likeCount: likes.length,
+                isLike: !!likes.find(v => v.uid == uid)
             }
         })
         return { list }
@@ -50,17 +55,20 @@ export class ViewsService {
     /** 
      * 递归获取子评论列表 
      */
-    async findChildViews(viewId, query: BasicGetAllDto) {
+    async findChildViews(viewId, query: BasicGetAllDto, uid: number) {
         const views = await this.viewsDao.findChildViews(viewId, query)
         const childList = await PromiseTools.queue(views, async (item) => {
-            const childViews = await this.findChildViews(item.id, { page: 1, pageSize: 1000 })
+            const childViews = await this.findChildViews(item.id, { page: 1, pageSize: 1000 }, uid)
             const relationTypeStr = this.getViewTypeStr(item.relationType)
             const author = await this.userDao.findUser({ uid: +item.uid });
+            const likes = await this.likeDao.findLikes(item.id, LikeTypeEnum.VIEW)
             return {
                 ...omit(item, ['uid']),
                 relationTypeStr,
                 author,
                 child: childViews,
+                likeCount: likes.length,
+                isLike: !!likes.find(v => v.uid == uid)
             }
         })
         return childList
