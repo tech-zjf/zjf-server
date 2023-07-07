@@ -15,9 +15,8 @@ export class LikesDao {
 
     async removeLike(removeLikeDto: RemoveLikeDto, uid: number) {
         const ret = await this.likesRepo.findOne({ ...removeLikeDto, uid });
-        console.log(ret)
         if (ret) {
-            await this.likesRepo.delete(ret);
+            await this.likesRepo.delete(ret.id);
             return 'ok'
         }
     }
