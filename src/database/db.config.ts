@@ -21,7 +21,7 @@ const devDbConfig = {
     CategoryEntity,
     CategoryRelatedEntity,
     ViewsEntity,
-    LikesEntity
+    LikesEntity,
   ],
   synchronize: true,
   migrationsTableName: 'migrations_typeorm',
@@ -45,6 +45,8 @@ const prodDbConfig = {
     ArticleEntity,
     CategoryEntity,
     CategoryRelatedEntity,
+    ViewsEntity,
+    LikesEntity,
   ],
   synchronize: true,
   migrationsTableName: 'migrations_typeorm',

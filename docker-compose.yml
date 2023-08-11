@@ -1,0 +1,19 @@
+version: '3'
+services:
+  nest-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3008:3008'
+    depends_on:
+      - zjfmysql
+  zjfmysql:
+    container_name: zjfmysql
+    image: mysql:8.0
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: zjf012511
+      MYSQL_DATABASE: root
+    ports:
+      - '3306:3306'

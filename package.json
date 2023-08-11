@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "cross-env NODE_ENV=dev nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "cross-env NODE_ENV=prod node dist/main",
+    "start:prod": "cross-env NODE_ENV=prod node dist/src/main",
     "db:gen": "ts-node --transpile-only ./node_modules/typeorm/cli.js --config ./src/database/db.config.ts migration:create -n",
     "db:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run --config ./src/database/db.config.ts",
     "db:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert --config ./src/database/db.config.ts",
@@ -20,7 +20,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "publish:prod": "scp -r ./*  root@101.132.36.144:/server/zjf-admin"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.6",
