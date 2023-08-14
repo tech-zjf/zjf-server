@@ -21,7 +21,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "publish:prod": "scp -r ./*  root@101.132.36.144:/server/zjf-admin"
+    "publish:prod": "scp -r ./*  root@101.132.36.144:/server"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.6",
