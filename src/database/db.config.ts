@@ -33,10 +33,10 @@ const devDbConfig = {
 
 const prodDbConfig = {
   type: 'mysql',
-  host: '101.132.36.144',
+  host: '8.153.71.115',
   port: 3306,
   username: 'root',
-  password: 'Zjf012511..',
+  password: 'zjf012511',
   database: 'zjfserver',
   // entities: [__dirname + '/entities/*.ts'],
   entities: [

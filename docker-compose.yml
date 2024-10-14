@@ -1,41 +1,41 @@
-version: "3.0"
+version: '3.8'
 
 services:
-    zjfmysql:
-        container_name: zjfmysql
-        image: mysql:8.0 # 使用官方镜像
-        ports:
-        - '3306:3306'
-        restart: on-failure
-        environment:
-            MYSQL_DATABASE: zjfserver
-            MYSQL_ROOT_PASSWORD: zjf012511
-            MYSQL_USER: zjf
-            MYSQL_PASSWORD: zjf012511
-            MYSQL_ROOT_HOST: '%'
-        volumes:
-            - /home/mysql/blog:/var/lib/mysql # 用来存放了数据库表文件
-        networks:
-            - nest-app_bridge
+  zjfadminmysql:
+    container_name: zjfadminmysql
+    image: mysql # 使用官方镜像
+    ports:
+      - '3306:3306'
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: zjfserver
+      MYSQL_ROOT_PASSWORD: zjf012511
+      MYSQL_USER: zjf
+      MYSQL_PASSWORD: zjf012511
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - mysqlconf:/etc/mysql # 用来存放了数据库表文件
+    networks:
+      - nest-app_bridge
 
-    nest-app:
-        # nestjs服务
-        container_name: nest-app
-        build:
-            # 根据Dockerfile构建镜像
-            context: .
-            dockerfile: Dockerfile
-        ports:
-            - 3008:3008
-        restart: on-failure # 设置自动重启，这一步必须设置，主要是存在mysql还没有启动完成就启动了node服务
-        networks:
-            - nest-app_bridge
-        depends_on:
-            # node服务依赖于mysql和redis
-            - zjfmysql
+  nest-app:
+    # nestjs服务
+    container_name: nest-app
+    build:
+      # 根据Dockerfile构建镜像
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3008:3008
+    restart: on-failure # 设置自动重启，这一步必须设置，主要是存在mysql还没有启动完成就启动了node服务
+    networks:
+      - nest-app_bridge
+    depends_on:
+      # node服务依赖于mysql和redis
+      - zjfadminmysql
 
 # 声明一下网桥  mysql02_bridge。
 # 重要：将所有服务都挂载在同一网桥即可通过容器名来互相通信了
 # 如nestjs连接mysql可以通过容器名来互相通信
 networks:
-    nest-app_bridge:
+  nest-app_bridge:
